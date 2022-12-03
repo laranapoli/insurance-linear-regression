@@ -2,12 +2,16 @@ import streamlit as st
 import pickle
 import pandas as pd
 
-with open("./model_artifacts/linreg_pipe.pkl", 'rb') as f:
-    regressor = pickle.load(f)
-
 header = st.container()
 dataset = st.container()
 predictions = st.container()
+
+@st.cache
+def get_model():
+    with open("./model_artifacts/linreg_pipe.pkl", 'rb') as f:
+        regressor = pickle.load(f)
+
+    return regressor
 
 with header:
     st.title('Optimizing Health Insurance Pricing with Linear Regression')
@@ -98,6 +102,7 @@ with predictions:
         'smoker': [smoker]
     })
 
+    regressor = get_model()
     charges = round(regressor.predict(df)[0],2)
 
     result_col.caption("From the information provided:")
