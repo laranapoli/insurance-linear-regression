@@ -8,9 +8,8 @@ predictions = st.container()
 
 @st.cache
 def get_model():
-    with open("./model_artifacts/linreg_pipe.pkl", 'rb') as f:
-        regressor = pickle.load(f)
-
+    regressor = pickle.load(open('./model_artifacts/linreg_pipe.pkl','rb'))
+    
     return regressor
 
 with header:
